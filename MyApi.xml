@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Architecture</name>
+    </assembly>
+    <members>
+        <member name="M:Architecture.Controllers.MembersController.Get">
+            <summary>
+            Get all members
+            </summary>
+        </member>
+        <member name="M:Architecture.Controllers.MembersController.Create(Architecture.Contracts.MemberCreateDTO)">
+            <summary>
+            Create new member
+            </summary>
+            <param name="newMember"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Architecture.Controllers.MembersController.Get(System.String)">
+            <summary>
+            Get member by YouTubeUserId
+            </summary>
+            <param name="youtubeUserId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Architecture.Controllers.MembersController.TestAuth">
+            <summary>
+            Check authorization
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Architecture.Controllers.TelegramBotController.Bot(System.Object)">
+            <summary>
+            Request telegram data by webhook
+            </summary>
+            <param name="update"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

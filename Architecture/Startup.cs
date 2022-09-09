@@ -9,9 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Architecture.Core.Services.Members;
 using Architecture.DAL.Repository.Members;
 using System.IO;
-using System.Reflection;
-using System;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Architecture
 {
@@ -35,14 +32,15 @@ namespace Architecture
 
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IMembersRepository, MembersRepository>();
-            
+
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Architecture api", Version = "v1", Description = "My first Open Api"});
-                
+
                 // в настройках проекта, в отладке, необходимо включить авто генерацию кода в xml
                 // что бы работало описание тегов sammary и т.д.
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "MyApi.xml");
                 c.IncludeXmlComments(filePath);
             });
@@ -54,7 +52,7 @@ namespace Architecture
                 cfg.AddProfile<ApiMappingProfile>();
             });
 
-            services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("MYSCHEMA", null, null);
+            //services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("MYSCHEMA", null, null);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

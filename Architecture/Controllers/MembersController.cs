@@ -3,12 +3,14 @@ using Architecture.Core.Services.Members;
 using Architecture.Domain.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace Architecture.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : Controller
@@ -27,9 +29,15 @@ namespace Architecture.Controllers
         /// <summary>
         /// Get all members
         /// </summary>
-        [Produces("application/json")]
+        /// <remarks>
+        /// Get /members
+        /// </remarks>
+        /// <returns>Returns Members list</returns>
+        /// <response code="200">Success</response>
+        /// <response code="401">If the user is unauthorized</response>
         [HttpGet]
         [ProducesResponseType(typeof(MemberCreateDTO[]), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Get()
         {
             var members = await _membersService.Get();
@@ -66,6 +74,9 @@ namespace Architecture.Controllers
         {
             var member = await _membersService.Get(youtubeUserId);
             var result = _mapper.Map<Member, MemberCreateDTO>(member);
+
+            if (result == null) return NotFound();
+
             return Ok(result);
         }
 

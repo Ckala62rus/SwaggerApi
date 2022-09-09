@@ -2,7 +2,6 @@
 using Architecture.Core.Services.Members;
 using Architecture.Domain.Entities;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

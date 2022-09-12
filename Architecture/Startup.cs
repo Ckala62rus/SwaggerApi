@@ -9,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Architecture.Core.Services.Members;
 using Architecture.DAL.Repository.Members;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Architecture.Middleware;
+using Architecture.Service;
+using Architecture.Services;
 
 namespace Architecture
 {
@@ -52,6 +58,33 @@ namespace Architecture
                 cfg.AddProfile<ApiMappingProfile>();
             });
 
+            // JWT Start
+            #region Authentication
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]
+                };
+            });
+            #endregion
+            // JWT End
+
+            // JWT Start
+            services.AddTransient<IUserService, UserService>();
+            // JWT End
+
             //services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("MYSCHEMA", null, null);
         }
 
@@ -70,6 +103,10 @@ namespace Architecture
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // JWT Start
+            app.UseMiddleware<JWTMiddleware>();
+            // JWT END
 
             app.UseRouting();
 

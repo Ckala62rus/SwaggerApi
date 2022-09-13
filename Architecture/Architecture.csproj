@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>D:\MyProjects\Architecture\MyApi.xml</DocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,5 +24,7 @@
     <ProjectReference Include="..\Architecture.DAL\Architecture.DAL.csproj" />
     <ProjectReference Include="..\Architecture.Domain\Architecture.Domain.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

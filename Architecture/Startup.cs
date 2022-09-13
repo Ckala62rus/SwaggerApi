@@ -49,6 +49,33 @@ namespace Architecture
                 //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var filePath = Path.Combine(System.AppContext.BaseDirectory, "MyApi.xml");
                 c.IncludeXmlComments(filePath);
+
+                // START Add Swagger authentication by JWT Token
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+                // END Swagger authentication by JWT Token
             });
 
             // автоматически сканируется сборка и подключает конфигурационные файлы автомаппера

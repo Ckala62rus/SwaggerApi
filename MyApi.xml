@@ -4,6 +4,13 @@
         <name>Architecture</name>
     </assembly>
     <members>
+        <member name="M:Architecture.Controllers.AuthController.GenerateJwtToken(System.String)">
+            <summary>
+            Generate JWT Token after successful login.
+            </summary>
+            <param name="accountId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Architecture.Controllers.MembersController.Get">
             <summary>
             Get all members
@@ -41,6 +48,11 @@
             </summary>
             <param name="update"></param>
             <returns></returns>
+        </member>
+        <member name="T:Architecture.Models.LoginModel">
+            <summary>
+            Json Properties
+            </summary>
         </member>
     </members>
 </doc>

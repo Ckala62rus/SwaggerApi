@@ -2,6 +2,8 @@
 using Architecture.Core.Services.Members;
 using Architecture.Domain.Entities;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -12,6 +14,8 @@ namespace Architecture.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MembersController : Controller
     {
         private readonly IMembersService _membersService;
@@ -83,7 +87,7 @@ namespace Architecture.Controllers
         /// Check authorization
         /// </summary>
         /// <returns></returns>
-        //[Authorize]
+        [Authorize]
         [HttpGet("auth")]
         public async Task<IActionResult> TestAuth()
         {

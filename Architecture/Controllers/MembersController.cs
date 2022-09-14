@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -44,6 +45,9 @@ namespace Architecture.Controllers
         public async Task<IActionResult> Get()
         {
             var members = await _membersService.Get();
+            Log.Information("=============================================================");
+            Log.Information("{@members}", members);
+            Log.Information("=============================================================");
             var results = _mapper.Map<Member[], MemberCreateDTO[]>(members);
             return Ok(results);
         }

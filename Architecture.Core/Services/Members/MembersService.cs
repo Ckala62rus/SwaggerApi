@@ -1,4 +1,5 @@
 ﻿using Architecture.Domain.Entities;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -28,6 +29,7 @@ namespace Architecture.Core.Services.Members
 
         public async Task<Member[]> Get()
         {
+            Log.Information("Получение данных из базы");
             return await _membersRepository.Get();
         }
 

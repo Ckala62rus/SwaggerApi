@@ -11,6 +11,21 @@
             <param name="accountId"></param>
             <returns></returns>
         </member>
+        <member name="T:Architecture.Controllers.TokenExampleResponce">
+            <summary>
+            Для вывода примера ответа в документации Swagger
+            </summary>
+        </member>
+        <member name="T:Architecture.Controllers.TokenModel">
+            <summary>
+            Модель для примера ответа, при получении токена
+            </summary>
+        </member>
+        <member name="T:Architecture.Controllers.TokenExampleRequest">
+            <summary>
+            Для вывода примера входных параметров контроллера в документации Swagger
+            </summary>
+        </member>
         <member name="M:Architecture.Controllers.MembersController.Get">
             <summary>
             Get all members

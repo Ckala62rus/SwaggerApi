@@ -1,9 +1,12 @@
 ﻿using Architecture.Models;
 using Architecture.Service;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.Swagger.Annotations;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,16 +28,18 @@ namespace Architecture.Controllers
             _configuration = configuration;
             _userService = userService;
         }
-
+        
         [AllowAnonymous]
         [HttpPost(nameof(Auth))]
+        [SwaggerRequestExample(typeof(LoginModel), typeof(TokenExampleRequest))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TokenExampleResponce))] // don't work
         public IActionResult Auth([FromBody] LoginModel data)
         {
             bool isValid = _userService.IsValidUserInformation(data);
             if (isValid)
             {
                 var tokenString = GenerateJwtToken(data.UserName);
-                return Ok(new { Token = tokenString, Message = "Success" });
+                return Ok(new TokenModel { Token = tokenString, Message = "Success" });
             }
             return BadRequest("Please pass the valid Username and Password");
         }
@@ -73,5 +78,46 @@ namespace Architecture.Controllers
             return tokenHandler.WriteToken(token);
         }
 
+    }
+
+    /// <summary>
+    /// Для вывода примера ответа в документации Swagger
+    /// </summary>
+    public class TokenExampleResponce : IExamplesProvider<TokenModel>
+    {
+        public TokenModel GetExamples()
+        {
+            return new TokenModel
+            {
+                Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+                ".eyJ1c2VyTmFtZSI6IkpheSIsImlkIjoiNyIsIm5iZiI6MTY2MzMxMzQwNSwiZXhwIjoxNjYzMzE3MDA1LCJpYXQiOjE2NjMzMTM0MDUsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzQxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0MjAwIn0" +
+                ".n8ekLaHVV-mvXfpUMH8V7hd3ToGnPLgEMX4e6f_43fk",
+                Message = "Success"
+            };
+        }
+    }
+
+    /// <summary>
+    /// Модель для примера ответа, при получении токена
+    /// </summary>
+    public class TokenModel
+    {
+        public string Token { get; set; }
+        public string Message { get; set; }
+    }
+
+    /// <summary>
+    /// Для вывода примера входных параметров контроллера в документации Swagger
+    /// </summary>
+    public class TokenExampleRequest : IExamplesProvider<LoginModel>
+    {
+        public LoginModel GetExamples()
+        {
+            return new LoginModel
+            {
+                UserName = "Jay",
+                Password = "123456"
+            };
+        }
     }
 }

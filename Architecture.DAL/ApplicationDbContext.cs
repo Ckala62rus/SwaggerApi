@@ -13,10 +13,12 @@ namespace Architecture.DAL
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new MemberConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

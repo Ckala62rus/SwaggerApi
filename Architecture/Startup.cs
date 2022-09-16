@@ -15,6 +15,8 @@ using System.Text;
 using Architecture.Middleware;
 using Architecture.Service;
 using Architecture.Services;
+using Swashbuckle.AspNetCore.Filters;
+using Architecture.Controllers;
 
 namespace Architecture
 {
@@ -39,10 +41,16 @@ namespace Architecture
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IMembersRepository, MembersRepository>();
 
+            services.AddSwaggerExamplesFromAssemblyOf<TokenModel>();
+            services.AddSwaggerExamplesFromAssemblyOf<TokenExampleResponce>();
 
+            // Begin Swagger Configuration
+            #region Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Architecture api", Version = "v1", Description = "My first Open Api"});
+
+                c.ExampleFilters();
 
                 // в настройках проекта, в отладке, необходимо включить авто генерацию кода в xml
                 // что бы работало описание тегов sammary и т.д.
@@ -77,6 +85,8 @@ namespace Architecture
                 });
                 // END Swagger authentication by JWT Token
             });
+            #endregion
+            // End Swagger Configuration
 
             // автоматически сканируется сборка и подключает конфигурационные файлы автомаппера
             //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

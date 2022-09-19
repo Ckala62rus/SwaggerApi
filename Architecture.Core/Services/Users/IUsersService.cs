@@ -9,7 +9,7 @@ namespace Architecture.Core.Services.Users
         Task<List<User>> GetUsers();
         Task<int> Create(User user);
         Task<User> GetUser(int id);
-        bool Delete(User user);
+        Task<bool> Delete(User user);
         Task<User> Update(User user);
     }
 }

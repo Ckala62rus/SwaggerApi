@@ -28,14 +28,25 @@ namespace Architecture.DAL.Repository.Users
             return entity.Id;
         }
 
-        public bool Delete(User entity)
+        public async Task<bool> Delete(User entity)
         {
-            throw new NotImplementedException();
+            _context.Users.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<User> Get(int id)
+        public async Task<User> Get(int id)
         {
-            throw new NotImplementedException();
+            if (id == 0)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return user;
         }
 
         public async Task<User> GetByEmail(string email)
@@ -54,9 +65,17 @@ namespace Architecture.DAL.Repository.Users
             return users;
         }
 
-        public Task<User> Update(User entity)
+        public async Task<User> Update(User user)
         {
-            throw new NotImplementedException();
+            if (user is null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return user;
         }
     }
 }

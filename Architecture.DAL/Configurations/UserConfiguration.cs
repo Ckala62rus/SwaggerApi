@@ -1,6 +1,7 @@
 ﻿using Architecture.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Architecture.DAL.Configurations
 {
@@ -15,8 +16,8 @@ namespace Architecture.DAL.Configurations
             builder.HasIndex(x => x.Email).IsUnique();
 
             builder.Property(x => x.Password).HasMaxLength(255);
-            builder.Property(x => x.CreatedAt).HasDefaultValue();
-            builder.Property(x => x.UpdatedAt).HasDefaultValue();
+            builder.Property(x => x.CreatedAt).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.UpdatedAt).HasDefaultValue(DateTime.Now);
         }
     }
 }

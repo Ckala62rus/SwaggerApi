@@ -25,6 +25,10 @@ namespace Architecture.Core.Services.Users
             RuleFor(x => x.Password)
                 .NotEmpty()
                 .WithMessage("Пароль недолжен быть пустым");
+
+            //RuleFor(x => x.SomeField)
+            //    .NotEmpty()
+            //    .WithMessage("Это поле не должно быть пустым!");
         }
     }
 }

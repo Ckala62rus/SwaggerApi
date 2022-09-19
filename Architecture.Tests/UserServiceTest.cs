@@ -64,7 +64,7 @@ namespace Architecture.Tests
             return new List<object[]>
             {
                 new object[] { new User { Name = "Ckala", Email = "",                       Password = "" } },
-                new object[] { new User { Name = "Ckala", Email = "agr.akyla@mail.ru",      Password = "" } },
+                new object[] { new User { Name = "Ckala", Email = "some_user@mail.ru",      Password = "" } },
                 new object[] { new User { Name = "Ckala", Email = "",                       Password = "123456" } },
                 new object[] { new User { Name = "Ckala", Email = "incorrectEmailAddress",  Password = "123456" } },
             };
@@ -139,6 +139,124 @@ namespace Architecture.Tests
             Assert.NotNull(usersActual);
             Assert.Equal(usersExcpected.Count , usersActual.Count);
             _usersRepositoryMock.Verify(x => x.Select(), Times.Once);
+        }
+
+        [Fact]
+        public async Task Test_get_user_by_id()
+        {
+            // arrange
+            var expectedId = _fixture.Create<int>();
+            
+            var userExpected = _fixture
+                .Build<User>()
+                .With(x => x.Id, expectedId)
+                .Create();
+
+            _usersRepositoryMock
+                .Setup(x => x.Get(expectedId))
+                .ReturnsAsync(userExpected);
+
+            // act
+            var user = await _service.GetUser(userExpected.Id);
+
+            // assert
+            Assert.NotNull(user);
+            Assert.Equal(expectedId, user.Id);
+        }
+
+        [Fact]
+        public async Task Test_delete_user()
+        {
+            // arrange
+            var userIdExpected = _fixture.Create<int>();
+
+            var userExpected = _fixture
+                .Build<User>()
+                .Without(x => x.Id)
+                .With(u => u.Email, _fixture.Create<MailAddress>().Address)
+                .Create();
+
+            _usersRepositoryMock
+                .Setup(x => x.Create(userExpected))
+                .ReturnsAsync(userIdExpected);
+
+            await _service.Create(userExpected);
+
+            _usersRepositoryMock
+                .Setup(x => x.Delete(userExpected))
+                .ReturnsAsync(true);
+
+            await _service.Delete(userExpected);
+
+            _usersRepositoryMock
+                .Setup(x => x.Get(userIdExpected))
+                .ReturnsAsync(default(User));
+
+            // act
+
+            var user = await _service.GetUser(userIdExpected);
+
+            // assert
+            Assert.Null(user);
+            _usersRepositoryMock.Verify(x => x.Create(userExpected), Times.Once);
+            _usersRepositoryMock.Verify(x => x.Delete(userExpected), Times.Once);
+            _usersRepositoryMock.Verify(x => x.Get(userIdExpected), Times.Once);
+        }
+
+        [Fact]
+        public async Task Test_update_user()
+        {
+            // arrange
+            var userExpected = _fixture
+                .Build<User>()
+                .With(u => u.Email, _fixture.Create<MailAddress>().Address)
+                .Create();
+
+            var userChanged = new User
+            {
+                Id = userExpected.Id,
+                Name = "Changed name",
+                Email = userExpected.Email,
+                CreatedAt = userExpected.CreatedAt,
+                UpdatedAt = userExpected.UpdatedAt,
+            };
+
+            _usersRepositoryMock
+                .Setup(x => x.Update(userExpected))
+                .ReturnsAsync(userChanged);
+
+            // act
+            var user = await _service.Update(userExpected);
+
+            // assert
+            Assert.Equal(user.Id, userExpected.Id);
+            Assert.NotEqual(user.Name, userExpected.Name);
+            Assert.Equal(user.Email, userExpected.Email);
+
+            _usersRepositoryMock.Verify(x => x.Update(userExpected), Times.Once);
+        }
+
+        [Theory]
+        [MemberData(nameof(TestPasswordHash))]
+        public void UnitTest(string password, string hash)
+        {
+            // arrange
+            var result = _service.hashPassword(password);
+
+            //act
+
+            //assert
+            Assert.Equal(result, hash);
+        }
+
+        public static IEnumerable<object[]> TestPasswordHash()
+        {
+            return new List<object[]>
+            {
+                new object[] { "123456", "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=" },
+                new object[] { "111111", "vLFfghR5tNV3K9DKhmwArV+SbjWAcgZZzIDTnJ0JgCo=" },
+                new object[] { "222222", "TMj01gm3FzVnAcV6A+c35ayP6IXajHFj095H4BhJxjU=" },
+            };
         }
     }
 }

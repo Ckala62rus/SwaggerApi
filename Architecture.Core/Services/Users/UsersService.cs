@@ -31,14 +31,15 @@ namespace Architecture.Core.Services.Users
             return await _usersRepository.Create(user);
         }
 
-        public bool Delete(User Entity)
+        public async Task<bool> Delete(User Entity)
         {
-            throw new NotImplementedException();
+            if (Entity == null) throw new ArgumentNullException(nameof(Entity));
+            return await _usersRepository.Delete(Entity);
         }
 
-        public Task<User> GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
-            throw new NotImplementedException();
+            return await _usersRepository.Get(id);
         }
 
         public async Task<List<User>> GetUsers()
@@ -46,9 +47,9 @@ namespace Architecture.Core.Services.Users
             return await _usersRepository.Select();
         }
 
-        public Task<User> Update(User entity)
+        public async Task<User> Update(User user)
         {
-            throw new NotImplementedException();
+            return await _usersRepository.Update(user);
         }
 
         public string hashPassword(string password)

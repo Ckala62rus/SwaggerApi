@@ -103,20 +103,20 @@ namespace Architecture.Tests
         public async Task Get_ShouldReturnMembers()
         {
             //arrange
-            var expectedMembers = _fixture.CreateMany<Member>(42).ToArray();
+            var expectedMembers = _fixture.CreateMany<Member>(42).ToList();
 
             _membersRepositoryMock
-                .Setup(x => x.Get())
+                .Setup(x => x.Get(1))
                 .ReturnsAsync(expectedMembers);
 
             //act
-            var members = await _service.Get();
+            var members = await _service.Get(1);
 
             //assert
             Assert.NotEmpty(members);
-            Assert.Equal(42, expectedMembers.Length);
+            Assert.Equal(42, expectedMembers.Count());
 
-            _membersRepositoryMock.Verify(x => x.Get(), Times.Once);
+            _membersRepositoryMock.Verify(x => x.Get(1), Times.Once);
         }
 
         [Fact]

@@ -10,11 +10,13 @@ namespace Architecture
     {
         public static void Main(string[] args)
         {
+            string time = DateTime.Now.ToString("yyyy-MM-dd");
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 //.WriteTo.Console()
-                .WriteTo.File("logs/myapp.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File($"logs/myapp_{time}_.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             try

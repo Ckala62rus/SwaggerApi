@@ -1,6 +1,7 @@
 ﻿using Architecture.Domain.Entities;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Architecture.Core.Services.Members
@@ -12,6 +13,11 @@ namespace Architecture.Core.Services.Members
         public MembersService(IMembersRepository membersRepository)
         {
             _membersRepository = membersRepository;
+        }
+
+        public async Task<int> Count()
+        {
+            return await _membersRepository.Count();
         }
 
         public async Task<int> Create(Member newMember)
@@ -27,10 +33,10 @@ namespace Architecture.Core.Services.Members
             return await _membersRepository.Add(newMember);
         }
 
-        public async Task<Member[]> Get()
+        public async Task<List<Member>> Get(int page)
         {
             Log.Information("Получение данных из базы");
-            return await _membersRepository.Get();
+            return await _membersRepository.Get(page);
         }
 
         public async Task<Member> Get(string youTubeId)

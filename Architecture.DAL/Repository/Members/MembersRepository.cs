@@ -2,6 +2,7 @@
 using Architecture.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Architecture.DAL.Repository.Members
     public class MembersRepository : IMembersRepository
     {
         private readonly ApplicationDbContext _context;
+        public const float PAGE_SIZE_FOR_PAGINATE = 2f;
 
         public MembersRepository(ApplicationDbContext context)
         {
@@ -32,18 +34,23 @@ namespace Architecture.DAL.Repository.Members
             return newMemberEntity.Id;
         }
 
-        public async Task<Member[]> Get()
+        public async Task<List<Member>> Get(int page)
         {
+            //var pageCount = Math.Ceiling(_context.Members.Count() / PAGE_SIZE_FOR_PAGINATE);
+
             var memversEntities = await _context
                 .Members
-                .AsNoTracking()
-                .Select(member => new Member
-                {
-                    Id = member.Id,
-                    Name = member.Name,
-                    YouTubeUserId= member.YouTubeUserId,
-                })
-                .ToArrayAsync();
+                .Skip((page - 1) * (int)PAGE_SIZE_FOR_PAGINATE)
+                .Take((int)PAGE_SIZE_FOR_PAGINATE)
+                //.AsNoTracking()
+                //.Select(member => new Member
+                //{
+                //    Id = member.Id,
+                //    Name = member.Name,
+                //    YouTubeUserId= member.YouTubeUserId,
+                //})
+                //.ToArrayAsync();
+                .ToListAsync();
 
             return memversEntities;
         }
@@ -54,6 +61,11 @@ namespace Architecture.DAL.Repository.Members
                 .Members
                 .Where(member => member.YouTubeUserId == youTubeId)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> Count()
+        {
+            return await _context.Members.CountAsync();
         }
     }
 }

@@ -158,14 +158,14 @@ namespace Architecture
                 endpoints.MapSwagger();
             });
 
-            if (env.IsEnvironment("Development"))
-            {
+            //if (env.IsEnvironment("Development"))
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("v1/swagger.json", "Architecture api v1");
                 });
-            }
+            //}
         }
     }
 }

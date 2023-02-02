@@ -1,5 +1,6 @@
 ﻿using Architecture.Contracts;
 using Architecture.Core.Services.Members;
+using Architecture.DAL.Repository.Members;
 using Architecture.Domain.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -39,17 +42,23 @@ namespace Architecture.Controllers
         /// <returns>Returns Members list</returns>
         /// <response code="200">Success</response>
         /// <response code="401">If the user is unauthorized</response>
-        [HttpGet]
-        [ProducesResponseType(typeof(MemberCreateDTO[]), (int)HttpStatusCode.OK)]
+        [HttpGet("paginate/{page}")]
+        [ProducesResponseType(typeof(List<MemberCreateDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int page)
         {
-            var members = await _membersService.Get();
+            var members = await _membersService.Get(page);
+            var countPage = await _membersService.Count();
             Log.Information("=============================================================");
             Log.Information("{@members}", members);
             Log.Information("=============================================================");
-            var results = _mapper.Map<Member[], MemberCreateDTO[]>(members);
-            return Ok(results);
+            var results = _mapper.Map<List<Member>, List<MemberCreateDTO>>(members);
+            return Ok(new
+            {
+                data = results,
+                currentPage = page,
+                total = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
+            });
         }
 
         /// <summary>

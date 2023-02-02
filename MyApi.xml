@@ -26,7 +26,7 @@
             Для вывода примера входных параметров контроллера в документации Swagger
             </summary>
         </member>
-        <member name="M:Architecture.Controllers.MembersController.Get">
+        <member name="M:Architecture.Controllers.MembersController.Get(System.Int32)">
             <summary>
             Get all members
             </summary>

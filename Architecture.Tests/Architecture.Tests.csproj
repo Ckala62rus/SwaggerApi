@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Architecture.Core\Architecture.Core.csproj" />
     <ProjectReference Include="..\Architecture.DAL\Architecture.DAL.csproj" />
     <ProjectReference Include="..\Architecture.Domain\Architecture.Domain.csproj" />
+    <ProjectReference Include="..\Architecture\Architecture.csproj" />
   </ItemGroup>
 
 </Project>

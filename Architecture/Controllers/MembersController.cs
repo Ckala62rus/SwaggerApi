@@ -11,6 +11,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Architecture.Controllers
@@ -45,19 +46,22 @@ namespace Architecture.Controllers
         [HttpGet("paginate/{page}")]
         [ProducesResponseType(typeof(List<MemberCreateDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Get(int page)
+        public async Task<IActionResult> Get(int page = 1)
         {
             var members = await _membersService.Get(page);
             var countPage = await _membersService.Count();
+            
             Log.Information("=============================================================");
             Log.Information("{@members}", members);
             Log.Information("=============================================================");
+
             var results = _mapper.Map<List<Member>, List<MemberCreateDTO>>(members);
+
             return Ok(new
             {
-                data = results,
-                currentPage = page,
-                total = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
+                Data = results,
+                CurrentPage = page,
+                Total = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
             });
         }
 
@@ -75,8 +79,10 @@ namespace Architecture.Controllers
 
             var memberId = await _membersService.Create(member);
 
+            var memberCreated = await _membersService.Get(member.YouTubeUserId);
+
             //return Ok(memberId);
-            return Ok(newMember);
+            return Ok(memberCreated);
         }
 
         /// <summary>
@@ -104,9 +110,12 @@ namespace Architecture.Controllers
         [HttpGet("auth")]
         public async Task<IActionResult> TestAuth()
         {
-            var user = User;
+            var context = HttpContext.User.Identity;
+            var name = User.Identity.Name;
+            var userId = Int32.Parse( ((ClaimsIdentity)User.Identity).FindFirst("id").Value);
 
-            return Ok("Your authorize");
+            return Ok(userId);
+            //return Ok("Your authorize");
         }
     }
 }

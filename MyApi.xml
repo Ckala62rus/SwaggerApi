@@ -64,6 +64,18 @@
             <param name="update"></param>
             <returns></returns>
         </member>
+        <member name="M:Architecture.Controllers.UploadController.Upload(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Upload file
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Architecture.Controllers.UploadController.Upload2(Architecture.Controllers.UploadForm)">
+            <summary>
+            Test save form with file and other params
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Architecture.Models.LoginModel">
             <summary>
             Json Properties

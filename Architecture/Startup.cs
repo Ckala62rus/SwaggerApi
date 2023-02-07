@@ -17,6 +17,10 @@ using Architecture.Service;
 using Architecture.Services;
 using Swashbuckle.AspNetCore.Filters;
 using Architecture.Controllers;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
+using Architecture.Core.Services.Files;
+using Architecture.DAL.Repository.File;
 
 namespace Architecture
 {
@@ -40,6 +44,9 @@ namespace Architecture
 
             services.AddScoped<IMembersService, MembersService>();
             services.AddScoped<IMembersRepository, MembersRepository>();
+
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IFileRepository, FileRepository>();
 
             services.AddSwaggerExamplesFromAssemblyOf<TokenModel>();
             services.AddSwaggerExamplesFromAssemblyOf<TokenExampleResponce>();
@@ -140,6 +147,13 @@ namespace Architecture
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // For upload files path UploadController
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+            //    RequestPath = new PathString("/Resources")
+            //});
 
             // JWT Start
             app.UseMiddleware<JWTMiddleware>();

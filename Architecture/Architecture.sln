@@ -3,20 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture", "Architecture.csproj", "{B8F77CAE-A5EE-461F-9C20-693466C96F67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture", "Architecture.csproj", "{B8F77CAE-A5EE-461F-9C20-693466C96F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Domain", "..\Architecture.Domain\Architecture.Domain.csproj", "{25254F7E-3EFC-4C92-A513-2D61F8EB51A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture.Domain", "..\Architecture.Domain\Architecture.Domain.csproj", "{25254F7E-3EFC-4C92-A513-2D61F8EB51A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Tests", "..\Architecture.Tests\Architecture.Tests.csproj", "{642A1CEE-1E25-4172-810B-7194C4FA3829}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture.Tests", "..\Architecture.Tests\Architecture.Tests.csproj", "{642A1CEE-1E25-4172-810B-7194C4FA3829}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Core", "..\Architecture.Core\Architecture.Core.csproj", "{12897401-3A79-43ED-8541-BA639819E6BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture.Core", "..\Architecture.Core\Architecture.Core.csproj", "{12897401-3A79-43ED-8541-BA639819E6BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.DAL", "..\Architecture.DAL\Architecture.DAL.csproj", "{FA6C3555-47AC-4DC6-B457-65200F9906D8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0EBADE44-2EF4-4415-913B-ACC4B529E59D}"
-	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Architecture.DAL", "..\Architecture.DAL\Architecture.DAL.csproj", "{FA6C3555-47AC-4DC6-B457-65200F9906D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

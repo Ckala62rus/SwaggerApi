@@ -17,10 +17,12 @@ using Architecture.Service;
 using Architecture.Services;
 using Swashbuckle.AspNetCore.Filters;
 using Architecture.Controllers;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Http;
 using Architecture.Core.Services.Files;
 using Architecture.DAL.Repository.File;
+using System;
+using Hangfire;
+using Hangfire.Dashboard.BasicAuthorization;
+using Hangfire.SqlServer;
 
 namespace Architecture
 {
@@ -55,7 +57,7 @@ namespace Architecture
             #region Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Architecture api", Version = "v1", Description = "My first Open Api"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Architecture api", Version = "v1", Description = "My first Open Api" });
 
                 c.ExampleFilters();
 
@@ -130,9 +132,27 @@ namespace Architecture
             // JWT End
 
             //services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("MYSCHEMA", null, null);
+
+            // Add Hangfire services.
+            services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+
+            // Add the processing server as IHostedService
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -147,13 +167,6 @@ namespace Architecture
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            // For upload files path UploadController
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-            //    RequestPath = new PathString("/Resources")
-            //});
 
             // JWT Start
             app.UseMiddleware<JWTMiddleware>();
@@ -174,12 +187,42 @@ namespace Architecture
 
             //if (env.IsEnvironment("Development"))
             //{
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("v1/swagger.json", "Architecture api v1");
-                });
             //}
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "Architecture api v1");
+            });
+
+            // nedd install Hangfire.Dashboard.BasicAuthorization (official issue documentation)
+            // https://github.com/yuzd/Hangfire.Dashboard.BasicAuthorization
+
+            var options = new DashboardOptions
+            {
+                IgnoreAntiforgeryToken = true,
+                AppPath = "https://logout:password@localhost:5001/hangfire",
+                DashboardTitle = "Hangfire Dashboard",
+                Authorization = new[] { new BasicAuthAuthorizationFilter(new BasicAuthAuthorizationFilterOptions
+                    {
+                        RequireSsl = false,
+                        SslRedirect = false,
+                        LoginCaseSensitive = true,
+                        Users = new []
+                        {
+                            new BasicAuthAuthorizationUser
+                            {
+                                Login = "admin",
+                                PasswordClear =  "123123"
+                            }
+                        }
+                    })
+                }
+            };
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/hangfire", options);
+
         }
     }
 }

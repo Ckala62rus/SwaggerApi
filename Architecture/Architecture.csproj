@@ -5,6 +5,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>D:\MyProjects\Architecture\MyApi.xml</DocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
+	<UserSecretsId>092571ca-33d8-4a9a-a1d1-631e293455d2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

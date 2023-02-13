@@ -88,6 +88,7 @@ namespace Architecture.Controllers
             [FromForm] UploadForm uploadForm
         )
         {
+            string myurl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
             return Ok();
         }
     }

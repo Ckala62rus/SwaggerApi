@@ -44,11 +44,13 @@ namespace Architecture
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddScoped<IMembersService, MembersService>();
-            services.AddScoped<IMembersRepository, MembersRepository>();
+            new DependencyInjection(services);
 
-            services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IFileRepository, FileRepository>();
+            //services.AddScoped<IMembersService, MembersService>();
+            //services.AddScoped<IMembersRepository, MembersRepository>();
+
+            //services.AddScoped<IFileService, FileService>();
+            //services.AddScoped<IFileRepository, FileRepository>();
 
             services.AddSwaggerExamplesFromAssemblyOf<TokenModel>();
             services.AddSwaggerExamplesFromAssemblyOf<TokenExampleResponce>();
@@ -128,7 +130,7 @@ namespace Architecture
             // JWT End
 
             // JWT Start
-            services.AddTransient<IUserService, UserService>();
+            //services.AddTransient<IUserService, UserService>();
             // JWT End
 
             //services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, MyAuthenticationHandler>("MYSCHEMA", null, null);
@@ -197,11 +199,10 @@ namespace Architecture
 
             // nedd install Hangfire.Dashboard.BasicAuthorization (official issue documentation)
             // https://github.com/yuzd/Hangfire.Dashboard.BasicAuthorization
-
             var options = new DashboardOptions
             {
                 IgnoreAntiforgeryToken = true,
-                AppPath = "https://logout:password@localhost:5001/hangfire",
+                AppPath = Configuration["HangfireConfiguration:AppPath"],
                 DashboardTitle = "Hangfire Dashboard",
                 Authorization = new[] { new BasicAuthAuthorizationFilter(new BasicAuthAuthorizationFilterOptions
                     {
@@ -212,8 +213,8 @@ namespace Architecture
                         {
                             new BasicAuthAuthorizationUser
                             {
-                                Login = "admin",
-                                PasswordClear =  "123123"
+                                Login = Configuration["HangfireConfiguration:UserName"],
+                                PasswordClear =  Configuration["HangfireConfiguration:Password"]
                             }
                         }
                     })

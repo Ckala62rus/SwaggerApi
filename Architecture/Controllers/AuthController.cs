@@ -1,16 +1,18 @@
-﻿using Architecture.Models;
-using Architecture.Service;
+﻿using Architecture.Core.Services.Users;
+using Architecture.Domain.Entities;
+using Architecture.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
-using Swashbuckle.Swagger.Annotations;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Architecture.Controllers
 {
@@ -21,9 +23,9 @@ namespace Architecture.Controllers
     {
         private readonly IConfiguration _configuration;
 
-        private readonly IUserService _userService;
+        private readonly IUsersService _userService;
 
-        public AuthController(IConfiguration configuration, IUserService userService)
+        public AuthController(IConfiguration configuration, IUsersService userService)
         {
             _configuration = configuration;
             _userService = userService;
@@ -31,17 +33,48 @@ namespace Architecture.Controllers
         
         [AllowAnonymous]
         [HttpPost(nameof(Auth))]
-        [SwaggerRequestExample(typeof(LoginModel), typeof(TokenExampleRequest))]
+        [SwaggerRequestExample(typeof(TokenModel), typeof(TokenExampleRequest))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TokenExampleResponce))] // don't work
-        public IActionResult Auth([FromBody] LoginModel data)
+        public async Task<IActionResult> Auth([FromBody] UserRegistrationModel data)
         {
-            bool isValid = _userService.IsValidUserInformation(data);
-            if (isValid)
+            var user = await _userService.GetUserByEmail(data.Email);
+
+            if (user == null)
             {
-                var tokenString = GenerateJwtToken(data.UserName);
+                return NotFound("User not Found");
+            }
+
+            var inputPasswordHash = _userService.hashPassword(data.Password);
+
+            if (inputPasswordHash == user.Password)
+            {
+                var tokenString = GenerateJwtToken(user.Email, user.Id);
                 return Ok(new TokenModel { Token = tokenString, Message = "Success" });
             }
-            return BadRequest("Please pass the valid Username and Password");
+
+            return BadRequest("Incorrect password!");
+        }
+
+        [AllowAnonymous]
+        [HttpPost(nameof(Registration))]
+        [SwaggerRequestExample(typeof(TokenModel), typeof(TokenExampleRequest))]
+        public async Task<IActionResult> Registration([FromBody] UserRegistrationModel userRegistrationModel)
+        {
+            var userCreated = await _userService.Create(new User
+            {
+                Email = userRegistrationModel.Email,
+                Password = userRegistrationModel.Password,
+            });
+
+            var user = await _userService.GetUser(userCreated);
+            var tokenString = GenerateJwtToken(user.Email, user.Id);
+
+            return Ok(new TokenModel
+            {
+                User = user,
+                Token = tokenString,
+                Message = "User was created"
+            });
         }
 
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
@@ -49,7 +82,7 @@ namespace Architecture.Controllers
         public IActionResult GetResult()
         {
             //var a = User;
-            //var user = User.Claims.Where(x => x.Type == "id").Select(x => x.Value).FirstOrDefault();
+            var user = User.Claims.Where(x => x.Type == "id").Select(x => x.Value).FirstOrDefault();
             return Ok("API Validated");
         }
 
@@ -58,7 +91,7 @@ namespace Architecture.Controllers
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        private string GenerateJwtToken(string userName)
+        private string GenerateJwtToken(string userName, int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:key"]);
@@ -67,9 +100,9 @@ namespace Architecture.Controllers
                 Subject = new ClaimsIdentity(new[] 
                 { 
                     new Claim("userName", userName),
-                    new Claim("id", "7"),
+                    new Claim("id", userId.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.Now.AddHours(1),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -102,6 +135,7 @@ namespace Architecture.Controllers
     /// </summary>
     public class TokenModel
     {
+        public User User { get; set; }
         public string Token { get; set; }
         public string Message { get; set; }
     }
@@ -115,7 +149,7 @@ namespace Architecture.Controllers
         {
             return new LoginModel
             {
-                UserName = "Jay",
+                Email = "admin@mail.ru",
                 Password = "123456"
             };
         }

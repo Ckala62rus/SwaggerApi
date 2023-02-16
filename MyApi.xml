@@ -4,7 +4,7 @@
         <name>Architecture</name>
     </assembly>
     <members>
-        <member name="M:Architecture.Controllers.AuthController.GenerateJwtToken(System.String)">
+        <member name="M:Architecture.Controllers.AuthController.GenerateJwtToken(System.String,System.Int32)">
             <summary>
             Generate JWT Token after successful login.
             </summary>

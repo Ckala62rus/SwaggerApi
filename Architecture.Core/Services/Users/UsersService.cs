@@ -51,6 +51,16 @@ namespace Architecture.Core.Services.Users
         {
             return await _usersRepository.Update(user);
         }
+        
+        /// <summary>
+        /// Get user by email field and return user model
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _usersRepository.GetByEmail(email);
+        }
 
         public string hashPassword(string password)
         {
@@ -59,5 +69,6 @@ namespace Architecture.Core.Services.Users
             var hashedPassword = sha.ComputeHash(asByteArray);
             return Convert.ToBase64String(hashedPassword);
         }
+
     }
 }

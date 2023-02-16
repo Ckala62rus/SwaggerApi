@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using Architecture.Service;
 using System.Linq;
+using Architecture.Core.Services.Users;
 
 namespace Architecture.Middleware
 {
@@ -14,13 +15,17 @@ namespace Architecture.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
-        private readonly IUserService _userService;
+        //private readonly IUsersService _userService;
 
-        public JWTMiddleware(RequestDelegate next, IConfiguration configuration, IUserService userService)
+        public JWTMiddleware(
+            RequestDelegate next, 
+            IConfiguration configuration
+            //IUsersService userService
+        )
         {
             _next = next;
             _configuration = configuration;
-            _userService = userService;
+            //_userService = userService;
         }
 
         public async Task Invoke(HttpContext context)

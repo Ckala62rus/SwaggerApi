@@ -10,7 +10,7 @@ namespace Architecture.Services
     {
         public bool IsValidUserInformation(LoginModel model)
         {
-            if (model.UserName.Equals("Jay") && model.Password.Equals("123456")) return true;
+            if (model.Email.Equals("Jay") && model.Password.Equals("123456")) return true;
             else return false;
         }
 

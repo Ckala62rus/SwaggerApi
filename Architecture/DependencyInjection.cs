@@ -1,9 +1,9 @@
 ﻿using Architecture.Core.Services.Files;
 using Architecture.Core.Services.Members;
+using Architecture.Core.Services.Users;
 using Architecture.DAL.Repository.File;
 using Architecture.DAL.Repository.Members;
-using Architecture.Service;
-using Architecture.Services;
+using Architecture.DAL.Repository.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Architecture
@@ -18,7 +18,8 @@ namespace Architecture
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IFileRepository, FileRepository>();
 
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
     }
 }

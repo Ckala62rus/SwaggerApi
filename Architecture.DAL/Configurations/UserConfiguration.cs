@@ -16,6 +16,10 @@ namespace Architecture.DAL.Configurations
             builder.HasIndex(x => x.Email).IsUnique();
 
             builder.Property(x => x.Password).HasMaxLength(255);
+
+            builder.Property(x => x.RefreshToken).HasMaxLength(255);
+            builder.Property(x => x.RefreshTokenExpiryTime).HasMaxLength(255);
+
             builder.Property(x => x.CreatedAt).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.UpdatedAt).HasDefaultValue(DateTime.Now);
         }

@@ -50,6 +50,10 @@ namespace Architecture.Middleware
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
                     ValidateAudience = true,
+
+                    ValidIssuer = "https://localhost:44341",
+                    ValidAudience = "http://localhost:4200",
+
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
@@ -64,6 +68,8 @@ namespace Architecture.Middleware
             {
                 // do nothing if jwt validation fails
                 // account is not attached to context so request won't have access to secure routes
+                context.Response.StatusCode = 401;
+                context.Response.CompleteAsync();
             }
         }
     }

@@ -17,6 +17,7 @@ using System;
 using Hangfire;
 using Hangfire.Dashboard.BasicAuthorization;
 using Hangfire.SqlServer;
+using Architecture.Core.Services.Users;
 
 namespace Architecture
 {

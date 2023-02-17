@@ -52,3 +52,17 @@
 	 dotnet ef migrations remove --force
 	 or
 	 PM> Remove-Migration -Force
+
+ 9) Пример как накатить миграцию и откатить её с удалением файла миграции
+	
+	// смотри список миграций и находим к примеру предпоследнюю миграцию
+	dotnet ef migrations list -p Architecture.DAL -s Architecture
+
+	/** 
+	 *  обновляемся до предпоследний миграции(откатывемся)
+	 *  после отката до предыдущей миграции, последняя миграция, которую мы хотим удалить, 
+	/*  будет в состоянии "Panding"
+	dotnet ef database update 20230207075615_FileTable  -p Architecture.DAL -s Architecture
+
+	// Удаляем последнюю миграцию
+	dotnet ef migrations remove -p Architecture.DAL -s Architecture

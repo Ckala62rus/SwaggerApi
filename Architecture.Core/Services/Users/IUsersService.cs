@@ -13,5 +13,6 @@ namespace Architecture.Core.Services.Users
         Task<User> Update(User user);
         Task<User> GetUserByEmail(string email);
         public string hashPassword(string password);
+        public string GenerateRefreshToken();
     }
 }

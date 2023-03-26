@@ -66,3 +66,11 @@
 
 	// Удаляем последнюю миграцию
 	dotnet ef migrations remove -p Architecture.DAL -s Architecture
+
+ 10) Для подключения к локальной базе с виртуальной машины по логину и паролю, использовать следующие строки, как пример:
+	Так же на локальной машине, в бд, разрешить удаленной подключение.
+
+	"ConnectionStrings": {
+    "DefaultConnection": "Server=DESKTOP-O3U1QA4;Database=Architecture;Integrated Security=false;Trusted_Connection=false;User ID=test;Password=123123;",
+    "HangfireConnection": "Server=DESKTOP-O3U1QA4;Database=HangfireArchitecture;Trusted_Connection=true"
+	 },

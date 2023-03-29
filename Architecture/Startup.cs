@@ -168,6 +168,32 @@ namespace Architecture
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            // nedd install Hangfire.Dashboard.BasicAuthorization (official issue documentation)
+            // https://github.com/yuzd/Hangfire.Dashboard.BasicAuthorization
+            var options = new DashboardOptions
+            {
+                IgnoreAntiforgeryToken = true,
+                AppPath = Configuration["HangfireConfiguration:AppPath"],
+                DashboardTitle = "Hangfire Dashboard",
+                Authorization = new[] { new BasicAuthAuthorizationFilter(new BasicAuthAuthorizationFilterOptions
+                    {
+                        RequireSsl = false,
+                        SslRedirect = false,
+                        LoginCaseSensitive = true,
+                        Users = new []
+                        {
+                            new BasicAuthAuthorizationUser
+                            {
+                                Login = Configuration["HangfireConfiguration:UserName"],
+                                PasswordClear =  Configuration["HangfireConfiguration:Password"]
+                            }
+                        }
+                    })
+                }
+            };
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/hangfire", options);
+
             // подключаем CORS
             // global cors policy
             app.UseCors(x => x
@@ -203,33 +229,6 @@ namespace Architecture
             {
                 c.SwaggerEndpoint("v1/swagger.json", "Architecture api v1");
             });
-
-            // nedd install Hangfire.Dashboard.BasicAuthorization (official issue documentation)
-            // https://github.com/yuzd/Hangfire.Dashboard.BasicAuthorization
-            var options = new DashboardOptions
-            {
-                IgnoreAntiforgeryToken = true,
-                AppPath = Configuration["HangfireConfiguration:AppPath"],
-                DashboardTitle = "Hangfire Dashboard",
-                Authorization = new[] { new BasicAuthAuthorizationFilter(new BasicAuthAuthorizationFilterOptions
-                    {
-                        RequireSsl = false,
-                        SslRedirect = false,
-                        LoginCaseSensitive = true,
-                        Users = new []
-                        {
-                            new BasicAuthAuthorizationUser
-                            {
-                                Login = Configuration["HangfireConfiguration:UserName"],
-                                PasswordClear =  Configuration["HangfireConfiguration:Password"]
-                            }
-                        }
-                    })
-                }
-            };
-
-            app.UseHangfireServer();
-            app.UseHangfireDashboard("/hangfire", options);
 
         }
     }

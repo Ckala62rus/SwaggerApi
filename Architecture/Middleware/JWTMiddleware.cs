@@ -69,6 +69,7 @@ namespace Architecture.Middleware
                 // do nothing if jwt validation fails
                 // account is not attached to context so request won't have access to secure routes
                 context.Response.StatusCode = 401;
+                context.Response.WriteAsync("Token has expired");
                 context.Response.CompleteAsync();
             }
         }

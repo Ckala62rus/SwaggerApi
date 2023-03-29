@@ -110,6 +110,17 @@ namespace Architecture.Controllers
             return Ok(new TokenModel { Token = token, Message = "Token was refreshed", RefreshToken = refreshedToken.RefreshToken });
         }
 
+        //[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        //[HttpPost(nameof(RefreshTokenByRefresh))]
+        //[SwaggerRequestExample(typeof(TokenModel), typeof(TokenRefreshExampleRequest))]
+        //public async Task<IActionResult> RefreshTokenByRefresh([FromBody] TokenApiModel tokenApiModel)
+        //{
+        //    if (tokenApiModel is null)
+        //        return BadRequest("Invalid client request");
+
+
+        //}
+
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(GetResult))]
         public IActionResult GetResult()

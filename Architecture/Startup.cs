@@ -146,6 +146,9 @@ namespace Architecture
 
             // Add the processing server as IHostedService
             services.AddHangfireServer();
+
+            //services.AddCors(); // добавляем сервисы CORS
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,6 +167,15 @@ namespace Architecture
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // подключаем CORS
+            // global cors policy
+            app.UseCors(x => x
+                .WithOrigins(new[] { "http://localhost:8080" })
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
 
             // JWT Start
             app.UseMiddleware<JWTMiddleware>();

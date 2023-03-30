@@ -57,6 +57,14 @@ namespace Architecture.DAL.Repository.Users
                .FirstOrDefaultAsync();
         }
 
+        public async Task<User> GetUserByRefreshToken(string refreshToken)
+        {
+            return await _context
+                .Users
+                .Where(user => user.RefreshToken == refreshToken)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<List<User>> Select()
         {
             var users = await _context.Users

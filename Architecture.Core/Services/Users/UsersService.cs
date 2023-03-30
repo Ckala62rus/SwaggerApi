@@ -79,5 +79,15 @@ namespace Architecture.Core.Services.Users
                 return Convert.ToBase64String(randomNumber);
             }
         }
+
+        public async Task<User> GetUserByRefreshToken(string refreshToken)
+        {
+            if (String.IsNullOrEmpty(refreshToken))
+            {
+                throw new ArgumentNullException("Refresh token is empty");
+            }
+
+            return await _usersRepository.GetUserByRefreshToken(refreshToken);
+        }
     }
 }

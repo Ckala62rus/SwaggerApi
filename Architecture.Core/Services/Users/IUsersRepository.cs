@@ -6,5 +6,6 @@ namespace Architecture.Core.Services.Users
     public interface IUsersRepository : IBaseRepository<User>
     {
         Task<User> GetByEmail(string email);
+        Task<User> GetUserByRefreshToken(string refreshToken);
     }
 }

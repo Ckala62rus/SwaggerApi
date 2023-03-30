@@ -110,16 +110,29 @@ namespace Architecture.Controllers
             return Ok(new TokenModel { Token = token, Message = "Token was refreshed", RefreshToken = refreshedToken.RefreshToken });
         }
 
-        //[Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPost(nameof(RefreshTokenByRefresh))]
-        //[SwaggerRequestExample(typeof(TokenModel), typeof(TokenRefreshExampleRequest))]
-        //public async Task<IActionResult> RefreshTokenByRefresh([FromBody] TokenApiModel tokenApiModel)
-        //{
-        //    if (tokenApiModel is null)
-        //        return BadRequest("Invalid client request");
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost(nameof(RefreshTokenByRefresh))]
+        [SwaggerRequestExample(typeof(TokenModel), typeof(TokenRefreshExampleRequest))]
+        public async Task<IActionResult> RefreshTokenByRefresh([FromBody] TokenApiModel tokenApiModel)
+        {
+            if (tokenApiModel is null)
+                return BadRequest("Invalid client request");
 
+            var user = await _userService.GetUserByRefreshToken(tokenApiModel.RefreshToken);
 
-        //}
+            if (user is null || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return Unauthorized("User not found or refresh token empty");
+            }
+
+            user.RefreshToken = _userService.GenerateRefreshToken();
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
+
+            var token = GenerateJwtToken(user.Email, user.Id);
+            var refreshToken = await _userService.Update(user);
+
+            return Ok(new TokenModel { Token = token, Message = "Token was refreshed", RefreshToken = refreshToken.RefreshToken });
+        }
 
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(GetResult))]

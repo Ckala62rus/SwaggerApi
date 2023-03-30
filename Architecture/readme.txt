@@ -74,3 +74,8 @@
     "DefaultConnection": "Server=DESKTOP-O3U1QA4;Database=Architecture;Integrated Security=false;Trusted_Connection=false;User ID=test;Password=123123;",
     "HangfireConnection": "Server=DESKTOP-O3U1QA4;Database=HangfireArchitecture;Trusted_Connection=true"
 	 },
+
+ 11) Компиляция проекта
+ 
+	dotnet publish -c Release
+

@@ -37,6 +37,17 @@
             <response code="200">Success</response>
             <response code="401">If the user is unauthorized</response>
         </member>
+        <member name="M:Architecture.Controllers.MembersController.GetNew(Architecture.Controllers.Filter)">
+            <summary>
+            Get all members
+            </summary>
+            <remarks>
+            Get /members
+            </remarks>
+            <returns>Returns Members list</returns>
+            <response code="200">Success</response>
+            <response code="401">If the user is unauthorized</response>
+        </member>
         <member name="M:Architecture.Controllers.MembersController.Create(Architecture.Contracts.MemberCreateDTO)">
             <summary>
             Create new member

@@ -135,6 +135,15 @@ namespace Architecture.Controllers
         }
 
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet(nameof(Me))]
+        public async Task<IActionResult> Me()
+        {
+            var userId = User.Claims.Where(x => x.Type == "id").Select(x => x.Value).FirstOrDefault();
+            var user = await _userService.GetUser( Int32.Parse(userId));
+            return Ok(user);
+        }
+
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet(nameof(GetResult))]
         public IActionResult GetResult()
         {
@@ -159,7 +168,7 @@ namespace Architecture.Controllers
                     new Claim("userName", userName),
                     new Claim("id", userId.ToString()),
                 }),
-                Expires = DateTime.Now.AddMinutes(1),
+                Expires = DateTime.Now.AddMinutes(30),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

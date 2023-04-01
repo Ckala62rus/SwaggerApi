@@ -11,7 +11,10 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.WebSockets;
 using System.Security.Claims;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Architecture.Controllers
@@ -62,6 +65,35 @@ namespace Architecture.Controllers
                 Data = results,
                 CurrentPage = page,
                 Total = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
+                Count = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
+            });
+        }
+
+        /// <summary>
+        /// Get all members
+        /// </summary>
+        /// <remarks>
+        /// Get /members
+        /// </remarks>
+        /// <returns>Returns Members list</returns>
+        /// <response code="200">Success</response>
+        /// <response code="401">If the user is unauthorized</response>
+        [HttpGet("paginate")]
+        [ProducesResponseType(typeof(List<MemberCreateDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetNew([FromQuery] Filter filter)
+        {
+            var page = 1;
+            var members = await _membersService.Get(page);
+            var countPage = await _membersService.Count();
+            var results = _mapper.Map<List<Member>, List<MemberCreateDTO>>(members);
+
+            return Ok(new
+            {
+                Data = results,
+                CurrentPage = page,
+                Total = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
+                Count = Math.Ceiling(countPage / MembersRepository.PAGE_SIZE_FOR_PAGINATE),
             });
         }
 
@@ -117,5 +149,10 @@ namespace Architecture.Controllers
             return Ok(userId);
             //return Ok("Your authorize");
         }
+    }
+
+    public class Filter
+    {
+        public int Page { get; set; }
     }
 }

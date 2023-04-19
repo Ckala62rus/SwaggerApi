@@ -1,5 +1,6 @@
 ﻿using Architecture.Core.Services.Files;
 using Architecture.Core.Services.Members;
+using Architecture.Core.Services.Telegram;
 using Architecture.Core.Services.Users;
 using Architecture.DAL.Repository.File;
 using Architecture.DAL.Repository.Members;
@@ -20,6 +21,8 @@ namespace Architecture
 
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+
+            services.AddScoped<ITelegramService, TelegramService>();
         }
     }
 }

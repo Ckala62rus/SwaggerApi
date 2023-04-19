@@ -11,10 +11,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.WebSockets;
 using System.Security.Claims;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Architecture.Controllers
@@ -83,7 +80,7 @@ namespace Architecture.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetNew([FromQuery] Filter filter)
         {
-            var page = 1;
+            var page = filter.Page;
             var members = await _membersService.Get(page);
             var countPage = await _membersService.Count();
             var results = _mapper.Map<List<Member>, List<MemberCreateDTO>>(members);

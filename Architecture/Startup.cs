@@ -18,6 +18,8 @@ using Hangfire;
 using Hangfire.Dashboard.BasicAuthorization;
 using Hangfire.SqlServer;
 using Architecture.Core.Services.Users;
+using Architecture.Core.Services.Telegram;
+using System.Threading.Tasks;
 
 namespace Architecture
 {
@@ -194,6 +196,12 @@ namespace Architecture
             app.UseHangfireServer();
             app.UseHangfireDashboard("/hangfire", options);
 
+            // Run telegram bot
+            Task.Run(() =>
+            {
+                TelegramBotBackground(app);
+            });
+
             // подключаем CORS
             // global cors policy
             app.UseCors(x => x
@@ -230,6 +238,13 @@ namespace Architecture
                 c.SwaggerEndpoint("v1/swagger.json", "Architecture api v1");
             });
 
+        }
+
+        public void TelegramBotBackground(IApplicationBuilder app)
+        {
+            var scope = app.ApplicationServices.CreateScope();
+            var service = scope.ServiceProvider.GetService<ITelegramService>();
+            service.GetMessageFromTelegram();
         }
     }
 }

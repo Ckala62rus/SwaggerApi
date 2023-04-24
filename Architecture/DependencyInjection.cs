@@ -22,7 +22,7 @@ namespace Architecture
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IUsersRepository, UsersRepository>();
 
-            services.AddScoped<ITelegramService, TelegramService>();
+            services.AddTransient<ITelegramService, TelegramService>();
         }
     }
 }

@@ -18,6 +18,12 @@ using Hangfire;
 using Hangfire.Dashboard.BasicAuthorization;
 using Hangfire.SqlServer;
 using Architecture.Core.Services.Users;
+using System.Threading.Tasks;
+using Architecture.Core.Services.Telegram;
+using System.Net.WebSockets;
+using Microsoft.AspNetCore.Http;
+using System.Net;
+using System.Threading;
 using Architecture.Core.Services.Telegram;
 using System.Threading.Tasks;
 
@@ -196,12 +202,6 @@ namespace Architecture
             app.UseHangfireServer();
             app.UseHangfireDashboard("/hangfire", options);
 
-            // Run telegram bot
-            Task.Run(() =>
-            {
-                TelegramBotBackground(app);
-            });
-
             // подключаем CORS
             // global cors policy
             app.UseCors(x => x
@@ -216,6 +216,29 @@ namespace Architecture
             // JWT END
 
             app.UseRouting();
+
+            var wsOptions = new WebSocketOptions { KeepAliveInterval = TimeSpan.FromSeconds(120) };
+            app.UseWebSockets(wsOptions);
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/send")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+                        {
+                            await Send(context, webSocket);
+                        }
+                    }
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.OK;
+                }
+
+                await next();
+            });
 
             app.UseAuthorization();
 
@@ -240,11 +263,29 @@ namespace Architecture
 
         }
 
-        public void TelegramBotBackground(IApplicationBuilder app)
+        public void TelegramBackground(IApplicationBuilder app)
         {
             var scope = app.ApplicationServices.CreateScope();
             var service = scope.ServiceProvider.GetService<ITelegramService>();
             service.GetMessageFromTelegram();
+        }
+
+        private async Task Send(HttpContext context, WebSocket webSocket)
+        {
+            var buffer = new byte[1024 * 4];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            
+            if (result != null)
+            {
+                while (!result.CloseStatus.HasValue)
+                {
+                    string msg = Encoding.UTF8.GetString(new ArraySegment<byte>(buffer, 0, result.Count));
+                    Console.WriteLine($"Client say: {msg}");
+                    await webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes($"server says: {DateTime.Now}")), result.MessageType, result.EndOfMessage, CancellationToken.None );
+                    result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                }
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
     }
 }

@@ -19,15 +19,16 @@ namespace Architecture.Core.Services.Telegram
     public class TelegramService : ITelegramService
     {
         public TelegramService(
-            IUsersService usersService,
+            IUsersService usersService, 
             IConfiguration configuration
         ) {
             _usersService = usersService;
             _configuration = configuration;
+            token = _configuration["Telegram:Token"];
         }
 
         private const string baseUrl = "https://api.telegram.org/bot";
-        private const string token = "token token ";
+        private readonly string token = "";
         private const string method = "/getUpdates";
         private int offset = 0;
 

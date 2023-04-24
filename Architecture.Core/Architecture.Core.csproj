@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Architecture.Domain\Architecture.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Telegram\" />
+  </ItemGroup>
+
 </Project>

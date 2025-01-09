@@ -1,0 +1,132 @@
+2024-11-11 10:44:53.547 +00:00 [INF] 
+
+Starting web host
+2024-11-11 10:44:55.236 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+2024-11-11 10:44:55.239 +00:00 [INF] User profile is available. Using '/root/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-11 10:44:55.277 +00:00 [INF] Start installing Hangfire SQL objects...
+2024-11-11 10:44:57.463 +00:00 [INF] Hangfire SQL objects installed.
+2024-11-11 10:44:57.483 +00:00 [INF] Creating key {13bfd421-faaa-46dc-acde-29bee4c3cc40} with creation date 2024-11-11 10:44:57Z, activation date 2024-11-11 10:44:57Z, and expiration date 2025-02-09 10:44:57Z.
+2024-11-11 10:44:57.491 +00:00 [WRN] No XML encryptor configured. Key {13bfd421-faaa-46dc-acde-29bee4c3cc40} may be persisted to storage in unencrypted form.
+2024-11-11 10:44:57.494 +00:00 [INF] Writing data to file '/root/.aspnet/DataProtection-Keys/key-13bfd421-faaa-46dc-acde-29bee4c3cc40.xml'.
+2024-11-11 10:44:57.540 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:44:57.541 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:44:57.542 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:44:57.678 +00:00 [INF] Now listening on: http://localhost:5000
+2024-11-11 10:44:57.680 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:44:57.681 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:44:57.682 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:44:57.683 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-11 10:44:57.684 +00:00 [INF] Hosting environment: Production
+2024-11-11 10:44:57.685 +00:00 [INF] Content root path: /src
+2024-11-11 10:44:57.715 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 successfully announced in 161.6149 ms
+2024-11-11 10:44:57.715 +00:00 [INF] Server 865b609b8bf1:1:56050d98 successfully announced in 31.3912 ms
+2024-11-11 10:44:57.719 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:44:57.719 +00:00 [INF] Server 865b609b8bf1:1:56050d98 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:44:57.745 +00:00 [INF] Server 865b609b8bf1:1:56050d98 all the dispatchers started
+2024-11-11 10:44:57.746 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 all the dispatchers started
+2024-11-11 10:45:18.195 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 caught stopping signal...
+2024-11-11 10:45:18.201 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 caught stopped signal...
+2024-11-11 10:45:18.201 +00:00 [INF] Application is shutting down...
+2024-11-11 10:45:18.203 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 All dispatchers stopped
+2024-11-11 10:45:18.209 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 successfully reported itself as stopped in 4.0581 ms
+2024-11-11 10:45:18.209 +00:00 [INF] Server 865b609b8bf1:1:0d98cb04 has been stopped in total 8.4533 ms
+2024-11-11 10:45:18.223 +00:00 [INF] Server 865b609b8bf1:1:56050d98 caught stopping signal...
+2024-11-11 10:45:18.226 +00:00 [INF] Server 865b609b8bf1:1:56050d98 caught stopped signal...
+2024-11-11 10:45:18.226 +00:00 [INF] Server 865b609b8bf1:1:56050d98 All dispatchers stopped
+2024-11-11 10:45:18.230 +00:00 [INF] Server 865b609b8bf1:1:56050d98 successfully reported itself as stopped in 1.519 ms
+2024-11-11 10:45:18.231 +00:00 [INF] Server 865b609b8bf1:1:56050d98 has been stopped in total 5.5701 ms
+2024-11-11 10:45:51.895 +00:00 [INF] 
+
+Starting web host
+2024-11-11 10:45:53.429 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+2024-11-11 10:45:53.433 +00:00 [INF] User profile is available. Using '/root/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-11 10:45:53.468 +00:00 [INF] Start installing Hangfire SQL objects...
+2024-11-11 10:45:55.635 +00:00 [INF] Hangfire SQL objects installed.
+2024-11-11 10:45:55.653 +00:00 [INF] Creating key {875ac30f-a464-4d05-9622-7a8ad26d819b} with creation date 2024-11-11 10:45:55Z, activation date 2024-11-11 10:45:55Z, and expiration date 2025-02-09 10:45:55Z.
+2024-11-11 10:45:55.661 +00:00 [WRN] No XML encryptor configured. Key {875ac30f-a464-4d05-9622-7a8ad26d819b} may be persisted to storage in unencrypted form.
+2024-11-11 10:45:55.664 +00:00 [INF] Writing data to file '/root/.aspnet/DataProtection-Keys/key-875ac30f-a464-4d05-9622-7a8ad26d819b.xml'.
+2024-11-11 10:45:55.712 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:45:55.713 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:45:55.713 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:45:55.866 +00:00 [INF] Now listening on: http://localhost:5000
+2024-11-11 10:45:55.867 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:45:55.868 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:45:55.875 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:45:55.876 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-11 10:45:55.881 +00:00 [INF] Hosting environment: Production
+2024-11-11 10:45:55.883 +00:00 [INF] Content root path: /src
+2024-11-11 10:45:55.909 +00:00 [INF] Server 134002d6158f:1:36122d12 successfully announced in 32.3047 ms
+2024-11-11 10:45:55.910 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 successfully announced in 185.052 ms
+2024-11-11 10:45:55.914 +00:00 [INF] Server 134002d6158f:1:36122d12 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:45:55.914 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:45:55.945 +00:00 [INF] Server 134002d6158f:1:36122d12 all the dispatchers started
+2024-11-11 10:45:55.948 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 all the dispatchers started
+2024-11-11 10:54:20.158 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 caught stopping signal...
+2024-11-11 10:54:20.164 +00:00 [INF] Application is shutting down...
+2024-11-11 10:54:20.166 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 caught stopped signal...
+2024-11-11 10:54:20.166 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 All dispatchers stopped
+2024-11-11 10:54:20.194 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 successfully reported itself as stopped in 12.8696 ms
+2024-11-11 10:54:20.196 +00:00 [INF] Server 134002d6158f:1:9fe5b8f7 has been stopped in total 31.5803 ms
+2024-11-11 10:54:20.197 +00:00 [INF] Server 134002d6158f:1:36122d12 caught stopping signal...
+2024-11-11 10:54:20.202 +00:00 [INF] Server 134002d6158f:1:36122d12 caught stopped signal...
+2024-11-11 10:54:20.204 +00:00 [INF] Server 134002d6158f:1:36122d12 All dispatchers stopped
+2024-11-11 10:54:20.210 +00:00 [INF] Server 134002d6158f:1:36122d12 successfully reported itself as stopped in 1.8344 ms
+2024-11-11 10:54:20.211 +00:00 [INF] Server 134002d6158f:1:36122d12 has been stopped in total 9.1266 ms
+2024-11-11 10:54:37.419 +00:00 [INF] 
+
+Starting web host
+2024-11-11 10:54:39.093 +00:00 [WRN] Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+2024-11-11 10:54:39.096 +00:00 [INF] User profile is available. Using '/root/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-11 10:54:39.130 +00:00 [INF] Start installing Hangfire SQL objects...
+2024-11-11 10:54:41.307 +00:00 [INF] Hangfire SQL objects installed.
+2024-11-11 10:54:41.373 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:54:41.374 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:54:41.375 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:54:41.508 +00:00 [INF] Now listening on: http://localhost:5000
+2024-11-11 10:54:41.509 +00:00 [INF] Starting Hangfire Server using job storage: 'SQL Server: ms_sql_db,1433@HangfireArchitecture'
+2024-11-11 10:54:41.510 +00:00 [INF] Using the following options for SQL Server job storage: Queue poll interval: 00:00:00.
+2024-11-11 10:54:41.511 +00:00 [INF] Using the following options for Hangfire Server:
+    Worker count: 20
+    Listening queues: 'default'
+    Shutdown timeout: 00:00:15
+    Schedule polling interval: 00:00:15
+2024-11-11 10:54:41.512 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-11 10:54:41.513 +00:00 [INF] Hosting environment: Production
+2024-11-11 10:54:41.513 +00:00 [INF] Content root path: /src
+2024-11-11 10:54:41.542 +00:00 [INF] Server 134002d6158f:1:1653c143 successfully announced in 155.9908 ms
+2024-11-11 10:54:41.542 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b successfully announced in 29.0169 ms
+2024-11-11 10:54:41.546 +00:00 [INF] Server 134002d6158f:1:1653c143 is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:54:41.546 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b is starting the registered dispatchers: ServerWatchdog, ServerJobCancellationWatcher, ExpirationManager, CountersAggregator, SqlServerHeartbeatProcess, Worker, DelayedJobScheduler, RecurringJobScheduler...
+2024-11-11 10:54:41.570 +00:00 [INF] Server 134002d6158f:1:1653c143 all the dispatchers started
+2024-11-11 10:54:41.571 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b all the dispatchers started
+2024-11-11 10:56:04.358 +00:00 [INF] Server 134002d6158f:1:1653c143 caught stopping signal...
+2024-11-11 10:56:04.366 +00:00 [INF] Application is shutting down...
+2024-11-11 10:56:04.366 +00:00 [INF] Server 134002d6158f:1:1653c143 caught stopped signal...
+2024-11-11 10:56:04.369 +00:00 [INF] Server 134002d6158f:1:1653c143 All dispatchers stopped
+2024-11-11 10:56:04.376 +00:00 [INF] Server 134002d6158f:1:1653c143 successfully reported itself as stopped in 3.9415 ms
+2024-11-11 10:56:04.376 +00:00 [INF] Server 134002d6158f:1:1653c143 has been stopped in total 10.6812 ms
+2024-11-11 10:56:04.392 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b caught stopping signal...
+2024-11-11 10:56:04.397 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b caught stopped signal...
+2024-11-11 10:56:04.399 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b All dispatchers stopped
+2024-11-11 10:56:04.404 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b successfully reported itself as stopped in 1.8684 ms
+2024-11-11 10:56:04.406 +00:00 [INF] Server 134002d6158f:1:b8d3cb7b has been stopped in total 9.2908 ms

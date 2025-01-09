@@ -1,5 +1,6 @@
 ﻿using Architecture.Core.Services.Files;
 using Architecture.DAL;
+using Architecture.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,18 @@ namespace Architecture.Controllers
         )
         {
             string myurl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}";
+            return Ok();
+        }
+
+        [HttpGet("notification")]
+        public async Task<IActionResult> Notification()
+        {
+            var res = await Channel.Trigger(
+                "some text from .NET Core 5.0", 
+                "update_device", 
+                "update_device"
+            );
+            
             return Ok();
         }
     }

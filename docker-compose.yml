@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    ports:
+      - "5000:80"
+#      - "5000:5000"
+    volumes:
+      - ./docker/build_project:/tmp/app 
+  
+#  api_release:
+#    build:
+#      context: .
+#      dockerfile: ./docker/release_app/Dockerfile
+#    ports:
+#      - "5000:80"
+#    tty: true
+#    volumes:
+#      - ./docker/build_project/:/src
+  
+  ms_sql_db:
+    container_name: ms_sql_db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Showmethemoney%
+      - MSSQL_PID=Express
+    ports:
+      - "14333:1433"
+    volumes:
+#      - mssql_data_go:/var/opt/mssql
+      - ./docker/sql:/var/opt/mssql
+
+volumes:
+  mssql_data_go:
+    name: mssql_data_go
